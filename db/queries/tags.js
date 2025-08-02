@@ -15,16 +15,16 @@ export async function createTag(name) {
   return tag;
 }
 
-// CANNOT DELETE TAGS bc posts_array
-// export async function deleteTag(id) {
-//   const sql = `
-//     DELETE FROM tags
-//     WHERE id = $1
-//     RETURNING *
-//     `;
+// CANNOT DELETE TAGS bc posts_array, strecth goal
+export async function deleteTag(id) {
+  const sql = `
+    DELETE FROM tags
+    WHERE id = $1
+    RETURNING *
+    `;
 
-//   const {
-//     rows: [tag],
-//   } = await db.query(sql, [id]);
-//   return tag;
-// }
+  const {
+    rows: [tag],
+  } = await db.query(sql, [id]);
+  return tag;
+}

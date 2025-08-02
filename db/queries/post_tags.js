@@ -14,5 +14,3 @@ export async function addTagsToPost(post_id, tag_id) {
   } = await db.query(sql, [post_id, tag_id]);
   return post_tags;
 }
-
-export async function createTagsArray() {}
