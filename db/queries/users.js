@@ -1,5 +1,6 @@
 import db from "#db/client";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export async function createUser(username, password) {
   const sql = `
@@ -44,3 +45,27 @@ export async function getUserById(id) {
   } = await db.query(sql, [id]);
   return user;
 }
+
+// export async function validateAccount({ email, password }) {
+//   const SQL = `
+//     SELECT *
+//     FROM users
+//     WHERE email = $1 AND password = crypt($2, password)
+//     `;
+
+//   const {
+//     rows: [user],
+//   } = await db.query(SQL, [email, password]);
+
+//   return user || undefined;
+// }
+
+// export function createJWT(id) {
+//   return jwt.sign({ id }, process.env.JWT_SECRET, {
+//     expiresIn: "7d",
+//   });
+// }
+
+// export async function validateJWT(token) {
+//   return jwt.verify(token, process.env.JWT_SECRET);
+// }
