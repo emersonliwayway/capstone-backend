@@ -55,5 +55,3 @@ router.route("/:id").delete(requireUser, async (req, res) => {
   await deletePost(req.post.post_id);
   res.sendStatus(204);
 });
-
-router.route("/users/:id");

@@ -1,6 +1,5 @@
 import db from "#db/client";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 export async function createUser(username, password) {
   const sql = `
@@ -34,38 +33,41 @@ export async function getUserByUsernameAndPassword(username, password) {
   return user;
 }
 
-export async function getUserById(id) {
+export async function getUserById(user_id) {
   const sql = `
   SELECT *
   FROM users
-  WHERE id = $1
+  WHERE user_id = $1
   `;
+
   const {
     rows: [user],
-  } = await db.query(sql, [id]);
+  } = await db.query(sql, [user_id]);
   return user;
 }
 
-// export async function validateAccount({ email, password }) {
-//   const SQL = `
-//     SELECT *
-//     FROM users
-//     WHERE email = $1 AND password = crypt($2, password)
-//     `;
+export async function updateUsername(username) {
+  const sql = `
+  UPDATE users
+  SET username = $2
+  WHERE user_id = $1
+  `;
 
-//   const {
-//     rows: [user],
-//   } = await db.query(SQL, [email, password]);
+  const {
+    rows: [user],
+  } = await db.query(sql, [username]);
+}
 
-//   return user || undefined;
-// }
+export async function updatePassword(password) {
+  const sql = `
+  UPDATE users
+  SET password = $2
+  WHERE user_id = $1
+  `;
 
-// export function createJWT(id) {
-//   return jwt.sign({ id }, process.env.JWT_SECRET, {
-//     expiresIn: "7d",
-//   });
-// }
-
-// export async function validateJWT(token) {
-//   return jwt.verify(token, process.env.JWT_SECRET);
-// }
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const {
+    rows: [user],
+  } = await db.query(sql, [hashedPassword]);
+  return user;
+}

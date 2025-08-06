@@ -25,7 +25,7 @@ export async function createTag(tag_name) {
   return tag;
 }
 
-export async function deleteTag(id) {
+export async function deleteTag(tag_id) {
   const sql = `
     DELETE FROM tags
     WHERE tag_id = $1
@@ -34,11 +34,11 @@ export async function deleteTag(id) {
 
   const {
     rows: [tag],
-  } = await db.query(sql, [id]);
+  } = await db.query(sql, [tag_id]);
   return tag;
 }
 
-export async function getTagById(id) {
+export async function getTagById(tag_id) {
   const sql = `
   SELECT *
   FROM tags
@@ -47,20 +47,18 @@ export async function getTagById(id) {
 
   const {
     rows: [tag],
-  } = await db.query(sql, [id]);
+  } = await db.query(sql, [tag_id]);
   return tag;
 }
 
-// questionable, faster searching ?
-export async function getTagByName(tag_name) {
+export async function getTagsByPostId(post_id) {
   const sql = `
-  SELECT *
+  SELECT tags.tag_id, tag_name
   FROM tags
-  WHERE tag_name LIKE $1
+  JOIN post_tags ON tags.tag_id = post_tags.tag_id
+  WHERE post_tags.post_id = $1
   `;
 
-  const {
-    rows: [tag],
-  } = await db.query(sql, [tag_name]);
-  return tag;
+  const { rows: tags } = await db.query(sql, [post_id]);
+  return tags;
 }
