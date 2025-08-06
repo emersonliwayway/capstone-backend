@@ -15,7 +15,7 @@ async function seed() {
   }
 
   for (let i = 1; i < 6; i++) {
-    const user = await createUser("User" + i, "password" + i + 1);
+    const user = await createUser("user" + i, "password" + i);
     for (let j = 1; j < 3; j++) {
       const timestamp = new Date();
       const post = await createPost(

@@ -34,12 +34,6 @@ router
     res.send(token);
   });
 
-router.route("/me").get(requireUser, async (req, res) => {
-  const { id } = getUserFromToken();
-  const user = getUserById(id);
-  res.status(200).send(user);
-});
-
 // router.route("/:id/bookmarks").get(requireUser, async (req, res) => {
 //   const bookmarks = await getBookmarksByUserId(req.user.user_id);
 //   if (!bookmarks) return res.status(404).send("No bookmarks found.");
